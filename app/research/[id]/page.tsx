@@ -4,12 +4,23 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import ResearchDownloadButton from "@/components/research-download-button"
 
-export default function ResearchPaperPage({ params }: { params: { id: string } }) {
-  const paper = getResearchPaperById(params.id)
-
-  if (!paper) {
-    notFound()
+// Add TypeScript interface for the params
+interface PageParams {
+  params: {
+    id: string
   }
+}
+
+// Use the interface with await for params
+export default async function ResearchPaperPage({ params }: PageParams) {
+  // Destructure with await to satisfy Next.js 15 requirements
+  const { id } = await params;
+  const paper = getResearchPaperById(id);
+  
+  if (!paper) {
+    notFound();
+  }
+
 
   return (
     <main className="min-h-screen bg-[color:var(--background)] pt-24 pb-16 px-4 md:px-8 transition-colors">

@@ -3,11 +3,21 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getBlogPostById(params.slug)
+// Add TypeScript interface for the params
+interface PageParams {
+  params: {
+    slug: string
+  }
+}
 
+// Use the interface with await for params
+export default async function BlogPostPage({ params }: PageParams) {
+  // Destructure with await to satisfy Next.js 15 requirements
+  const { slug } = await params;
+  const post = getBlogPostById(slug);
+  
   if (!post) {
-    notFound()
+    notFound();
   }
 
   const socialLinks = [
